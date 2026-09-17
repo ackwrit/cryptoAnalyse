@@ -6,6 +6,7 @@ import { getInfos } from '../services/apiCrypto';
 import { MyLoading } from '../Components/MyLoading';
 import { MyCardCrypto } from '../Components/MyCardCrypto';
 import { useNavigation } from '@react-navigation/native';
+import { MyInput } from '../Components/MyInput';
 
 export function MyHome(){
     
@@ -13,6 +14,18 @@ export function MyHome(){
       const [allCryptos,setallcryptos] =useState([]);
       const [dataCryptos,setdataCryptos] = useState([]);
       const [selectedCrypto,setselectedCrypto] = useState();
+
+
+
+      function filtrage(text){
+        setselectedCrypto(text);
+        const filtercryptos = allCryptos;
+        const resultat = filtercryptos.filter((item)=>{
+          return item.name.toLowerCase().includes(text.toLowerCase()) || item.symbol.toLowerCase().includes(text.toLowerCase())
+        })
+        setdataCryptos(resultat);
+
+      }
 
 
      
@@ -44,7 +57,7 @@ export function MyHome(){
   return (
     <ImageBackground style={{flex:1}} source={ImageBack} imageStyle={{opacity:0.5}}>
       <View style={{marginBottom:60}}/>
-      <TextInput style={{borderRadius:20,p}} placeholder='Entre votre crypto' i/>
+      <MyInput placeholder={"Entrer votre crypto"} iconName={"search"} value={selectedCrypto} onchange={filtrage}/>
       
       <FlatList
        data={dataCryptos}
